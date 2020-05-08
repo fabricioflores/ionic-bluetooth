@@ -1,17 +1,37 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
+<ion-header>
+  <ion-toolbar color="dark">
     <ion-title>
       Tab 1
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+<ion-content padding>
+  <ion-button (click)="listPairedDevices()">
+    <ion-icon name="refresh"></ion-icon>&nbsp;Refrescar lista
+  </ion-button>
+  <ion-row>
+    <ion-col>
+      <ion-list>
+        <ion-radio-group [(ngModel)]="pairedDeviceID" name="pairedDeviceID" ngDefaultControl *ngIf="listToggle">
+          <ion-list-header>
+            <ion-label>Dispositivos</ion-label>
+          </ion-list-header>
+          <ion-item *ngFor="let i of pairedList;let j=index">
+            <ion-label>{{i.name}}</ion-label>
+            <ion-radio value="{{j}}"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-list>
+    </ion-col>
+  </ion-row>
+  <ion-button *ngIf="listToggle && !connectedDevice" (click)="selectDevice()">
+    <ion-icon name="bluetooth"></ion-icon>&nbsp;Conectar dispositivo
+  </ion-button>
+  <ion-button *ngIf="listToggle && connectedDevice" (click)="disconnect()">
+    Desconectar dispositivo
+  </ion-button>
+  <div>
+    Contador de respuestas: {{ response | json }}
+  </div>
 </ion-content>
